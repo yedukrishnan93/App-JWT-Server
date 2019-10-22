@@ -41,14 +41,16 @@ router.post('/login', async (req, res) => {
     email: userMail
   }).exec();
   if (!user) {
-    res.send("user does not valid")
+    res.send({message:"user does not valid"})
   }
 
 
   if (!bcrypt.compareSync(req.body.password, _user.password)) {
-    res.send("password is invalid")
+    res.send({message:"password is invalid"})
   }
-  res.send("user name and password is correct")
+
+  let token = jwt.sign(_user.id,"helooo")
+  res.send({message:"valid user",token:token})
 
 
 
